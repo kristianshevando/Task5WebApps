@@ -2,14 +2,6 @@
     "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json",
     "contentVersion": "1.0.0.0",
     "parameters": {
-        "WebAppName1": {
-            "type": "string",
-            "defaultValue": "[reference(concat('/subscriptions/', variables('subscriptionId'), '/resourceGroups/', variables('resourceGroupName1'), 'Microsoft.Web/sites/', variables('AppName1')), '2016-01-01')]" 
-        },
-        "WebAppName2": {
-            "type": "string",
-            "defaultValue": "[reference(concat('/subscriptions/', variables('subscriptionId'), '/resourceGroups/', variables('resourceGroupName2'), 'Microsoft.Web/sites/', variables('AppName2')), '2016-01-01')]" 
-        },
         "endPointName1": {
             "type": "string",
         },
@@ -33,7 +25,7 @@
         "type": "Microsoft.Network/trafficManagerProfiles/azureEndpoints",
         "dependsOn": [
           "Microsoft.Network/trafficManagerProfiles/kristianTMProfile",
-          "[concat('Microsoft.Web/sites/', parameters('WebAppName1'), copyindex())]"
+          "[reference(concat('/subscriptions/', variables('subscriptionId'), '/resourceGroups/', variables('resourceGroupName1'), 'Microsoft.Web/sites/', variables('AppName1')), '2016-01-01')]"
         ],
         "name": "[parameters('endPointName1')]",
         "location": "global",
@@ -42,7 +34,7 @@
           "count": "[length(variables('webAppLocations'))]"
         },
         "properties": {
-          "targetResourceId": "[resourceId('Microsoft.Web/sites/', concat(parameters('WebAppName1'), copyIndex()))]",
+          "targetResourceId": "[reference(concat('/subscriptions/', variables('subscriptionId'), '/resourceGroups/', variables('resourceGroupName1'), 'Microsoft.Web/sites/', variables('AppName1')), '2016-01-01')]",
           "endpointStatus": "Enabled"
         }
       },
@@ -51,7 +43,7 @@
         "type": "Microsoft.Network/trafficManagerProfiles/azureEndpoints",
         "dependsOn": [
           "Microsoft.Network/trafficManagerProfiles/kristianTMProfile",
-          "[concat('Microsoft.Web/sites/', parameters('WebAppName2'), copyindex())]"
+          "[reference(concat('/subscriptions/', variables('subscriptionId'), '/resourceGroups/', variables('resourceGroupName2'), 'Microsoft.Web/sites/', variables('AppName2')), '2016-01-01')]"
         ],
         "name": "[parameters('endPointName2')]",
         "location": "global",
@@ -60,7 +52,7 @@
           "count": "[length(variables('webAppLocations'))]"
         },
         "properties": {
-          "targetResourceId": "[resourceId('Microsoft.Web/sites/', concat(parameters('WebAppName2'), copyIndex()))]",
+          "targetResourceId": "[reference(concat('/subscriptions/', variables('subscriptionId'), '/resourceGroups/', variables('resourceGroupName2'), 'Microsoft.Web/sites/', variables('AppName2')), '2016-01-01')]",
           "endpointStatus": "Enabled"
         }
       }
