@@ -22,8 +22,7 @@
             "defaultValue": 1
         },
         "location": {
-            "type": "string",
-            "defaultValue": "[resourceGroup().location]"
+            "type": "string"
         }
     },
     "resources": [

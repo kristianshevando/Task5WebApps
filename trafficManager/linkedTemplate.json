@@ -8,6 +8,14 @@
           "description": "Relative DNS name for the traffic manager profile, resulting FQDN will be <uniqueDnsName>.trafficmanager.net, must be globally unique."
         }
       },
+      "routingMethod": {
+        "type": "string",
+        "defaultValue": "Performance"
+      },
+      "maxReturn": {
+        "type": "int",
+        "defaultValue": 0
+      },
       "WebAppName1": {
         "type": "string",
         "metadata": {
@@ -27,23 +35,49 @@
   
     "resources": [
       {
-        "apiVersion": "2015-11-01",
-        "type": "Microsoft.Network/trafficManagerProfiles",
-        "name": "kristianTMProfile",
+        "apiVersion": "2018-04-01",
+        "type": "Microsoft.Network/trafficmanagerprofiles",
+        "name": "kristianshevandoTM",
         "location": "global",
         "properties": {
-          "profileStatus": "Enabled",
-          "trafficRoutingMethod": "Priority",
-          "dnsConfig": {
-            "relativeName": "[parameters('uniqueDnsName')]",
-            "ttl": 30
-          },
-          "monitorConfig": {
-            "protocol": "HTTPS",
-            "port": 443,
-            "path": "/"
-          }
+            "trafficRoutingMethod": "[parameters('routingMethod')]",
+            "maxReturn": "[parameters('maxReturn')]",
+            "dnsConfig": {
+                "relativeName": "[parameters('uniqueDnsName')]",
+                "ttl": "60"
+            },
+            "monitorConfig": {
+                "protocol": "HTTP",
+                "port": "80",
+                "path": "/"
+            },
+            "endpoints": [
+                {
+                    "name": "kristanEndpoint1",
+                    "type": "Microsoft.Network/trafficManagerProfiles/azureEndpoints",
+                    "properties": {
+                        "endpointStatus": "Enabled",
+                        "targetResourceId": "[resourceId('Microsoft.Web/sites', parameters('WebAppName1'))]",
+                        "target": "[concat('kristianwebapp1.azurewebsites.net')]",
+                        "weight": 1,
+                        "priority": 1,
+                        "endpointLocation": "West Europe"
+                    }
+                },
+                {
+                    "name": "kristianEndpoint2",
+                    "type": "Microsoft.Network/trafficManagerProfiles/azureEndpoints",
+                    "properties": {
+                        "endpointStatus": "Enabled",
+                        "targetResourceId": "[resourceId('Microsoft.Web/sites', parameters('WebAppName2'))]",
+                        "target": "[concat('kristianwebapp2.azurewebsites.net')]",
+                        "weight": 1,
+                        "priority": 2,
+                        "endpointLocation": "West US"
+                    }
+                }
+            ]
         }
-      }
+}
     ]
   }

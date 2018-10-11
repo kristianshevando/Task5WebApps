@@ -10,6 +10,9 @@
         },
         "workerPool": {
             "value": "1"
+        },
+        "location": {
+            "value": "West US"
         }
     }
 }
