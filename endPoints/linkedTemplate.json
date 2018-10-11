@@ -25,7 +25,7 @@
         "type": "Microsoft.Network/trafficManagerProfiles/azureEndpoints",
         "dependsOn": [
           "Microsoft.Network/trafficManagerProfiles/kristianTMProfile",
-          "[resourceId('Microsoft.Web/sites/', variables('AppName1'))]"
+          "[concat('Microsoft.Web/sites/', variables('AppName1'))]"
         ],
         "name": "[parameters('endPointName1')]",
         "location": "global",
@@ -34,7 +34,7 @@
           "count": "[length(variables('webAppLocations'))]"
         },
         "properties": {
-          "targetResourceId": "[resourceId('Microsoft.Web/sites/', variables('AppName1'))]",
+          "targetResourceId": "[concat('Microsoft.Web/sites/', variables('AppName1'))]",
           "endpointStatus": "Enabled"
         }
       },
@@ -43,7 +43,7 @@
         "type": "Microsoft.Network/trafficManagerProfiles/azureEndpoints",
         "dependsOn": [
           "Microsoft.Network/trafficManagerProfiles/kristianTMProfile",
-          "[resourceId('Microsoft.Web/sites/', variables('AppName2'))]"
+          "[concat('Microsoft.Web/sites/', variables('AppName2'))]"
         ],
         "name": "[parameters('endPointName2')]",
         "location": "global",
@@ -52,7 +52,7 @@
           "count": "[length(variables('webAppLocations'))]"
         },
         "properties": {
-          "targetResourceId": "[resourceId('Microsoft.Web/sites/', variables('AppName2'))]",
+          "targetResourceId": "[concat('Microsoft.Web/sites/', variables('AppName2'))]",
           "endpointStatus": "Enabled"
         }
       }
