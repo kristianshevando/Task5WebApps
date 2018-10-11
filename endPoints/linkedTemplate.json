@@ -8,7 +8,7 @@
         },
         "WebAppName2": {
             "type": "string",
-            "defaultValue": "[reference(concat('/subscriptions/', variables('subscriptionId'), '/resourceGroups/', variables('resourceGroupName1'), 'Microsoft.Web/sites/', variables('AppName2')), '2016-01-01')]" 
+            "defaultValue": "[reference(concat('/subscriptions/', variables('subscriptionId'), '/resourceGroups/', variables('resourceGroupName2'), 'Microsoft.Web/sites/', variables('AppName2')), '2016-01-01')]" 
         },
         "endPointName1": {
             "type": "string",
@@ -23,7 +23,8 @@
         "AppName2": "kristianWebApp2",
         "webAppLocations": [ "West Europe", "North Europe" ],
         "subscriptionId": "ae8ab787-c66f-4733-aed2-228ab3e8523b",
-        "resourceGroupName1": "KristianResourceGroup1"
+        "resourceGroupName1": "KristianResourceGroup1",
+        "resourceGroupName2": "KristianResourceGroup2"
     },
   
     "resources": [
