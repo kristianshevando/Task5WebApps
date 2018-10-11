@@ -34,7 +34,7 @@
           "count": "[length(variables('webAppLocations'))]"
         },
         "properties": {
-          "targetResourceId": "[resourceId('/subscriptions/', variables('subscriptionId'), '/resourceGroups/', variables('resourceGroupName1'), 'Microsoft.Web/sites/', variables('AppName1'))]",
+          "targetResourceId": "[resourceId('Microsoft.Web/sites/', variables('AppName1'))]",
           "endpointStatus": "Enabled"
         }
       },
@@ -52,7 +52,7 @@
           "count": "[length(variables('webAppLocations'))]"
         },
         "properties": {
-          "targetResourceId": "resourceId('/subscriptions/', variables('subscriptionId'), '/resourceGroups/', variables('resourceGroupName2'), 'Microsoft.Web/sites/', variables('AppName2'))]",
+          "targetResourceId": "[resourceId('Microsoft.Web/sites/', variables('AppName2'))]",
           "endpointStatus": "Enabled"
         }
       }
