@@ -5,17 +5,11 @@
       "uniqueDnsName": {
         "value": "kristianshevandoTM"
       },
-      "uniqueDnsNameForWebApp1": {
-        "value": "kristianshevandoWA"
+      "WebAppName1": {
+        "value": "kristianWebApp1"
       },
-      "uniqueDnsNameForWebApp2": {
-        "value": "kristianshevandoWA"
-      },
-      "webAppLocation1": {
-        "value": "[reference(concat('/subscriptions/')]"
-      },
-      "webAppLocation2": {
-        "type": "string"
+      "WebAppName2": {
+        "value": "kristianWebApp2"
       }
     }
 }

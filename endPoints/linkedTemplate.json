@@ -1,0 +1,67 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "WebAppName1": {
+            "type": "string",
+            "defaultValue": "[reference(concat('/subscriptions/', variables('subscriptionId'), '/resourceGroups/', variables('resourceGroupName1'), 'Microsoft.Web/sites/', variables('AppName1')), '2016-01-01')]" 
+        },
+        "WebAppName2": {
+            "type": "string",
+            "defaultValue": "[reference(concat('/subscriptions/', variables('subscriptionId'), '/resourceGroups/', variables('resourceGroupName1'), 'Microsoft.Web/sites/', variables('AppName2')), '2016-01-01')]" 
+        },
+        "endPointName1": {
+            "type": "string",
+        },
+        "endPointName2": {
+            "type": "string",
+        },
+    },
+  
+    "variables": {
+        "AppName1": "kristianWebApp1",
+        "AppName2": "kristianWebApp2",
+        "webAppLocations": [ "West Europe", "North Europe" ],
+        "subscriptionId": "ae8ab787-c66f-4733-aed2-228ab3e8523b",
+        "resourceGroupName1": "KristianResourceGroup1"
+    },
+  
+    "resources": [
+      {
+        "apiVersion": "2015-11-01",
+        "type": "Microsoft.Network/trafficManagerProfiles/azureEndpoints",
+        "dependsOn": [
+          "Microsoft.Network/trafficManagerProfiles/kristianTMProfile",
+          "[concat('Microsoft.Web/sites/', parameters('WebAppName1'), copyindex())]"
+        ],
+        "name": "[parameters('endPointName1')]",
+        "location": "global",
+        "copy": {
+          "name": "endpointloop",
+          "count": "[length(variables('webAppLocations'))]"
+        },
+        "properties": {
+          "targetResourceId": "[resourceId('Microsoft.Web/sites/', concat(parameters('WebAppName1'), copyIndex()))]",
+          "endpointStatus": "Enabled"
+        }
+      },
+      {
+        "apiVersion": "2015-11-01",
+        "type": "Microsoft.Network/trafficManagerProfiles/azureEndpoints",
+        "dependsOn": [
+          "Microsoft.Network/trafficManagerProfiles/kristianTMProfile",
+          "[concat('Microsoft.Web/sites/', parameters('WebAppName2'), copyindex())]"
+        ],
+        "name": "[parameters('endPointName2')]",
+        "location": "global",
+        "copy": {
+          "name": "endpointloop",
+          "count": "[length(variables('webAppLocations'))]"
+        },
+        "properties": {
+          "targetResourceId": "[resourceId('Microsoft.Web/sites/', concat(parameters('WebAppName2'), copyIndex()))]",
+          "endpointStatus": "Enabled"
+        }
+      }
+    ]
+}
