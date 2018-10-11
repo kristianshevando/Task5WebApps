@@ -3,10 +3,10 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
       "uniqueDnsName": {
-        "value": "GEN-UNIQUE-32"
+        "value": "kristianshevando"
       },
       "uniqueDnsNameForWebApp": {
-        "value": "GEN-UNIQUE-32"
+        "value": "kristianshevandoWA"
       }
     }
 }

@@ -52,7 +52,7 @@
       {
         "apiVersion": "2015-11-01",
         "type": "Microsoft.Network/trafficManagerProfiles",
-        "name": "ExampleTMProfile",
+        "name": "kristianTMProfile",
         "location": "global",
         "properties": {
           "profileStatus": "Enabled",
@@ -62,8 +62,8 @@
             "ttl": 30
           },
           "monitorConfig": {
-            "protocol": "HTTP",
-            "port": 80,
+            "protocol": "HTTPS",
+            "port": 443,
             "path": "/"
           }
         }
