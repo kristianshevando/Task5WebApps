@@ -1,12 +1,21 @@
 {
-    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
       "uniqueDnsName": {
-        "value": "kristianshevando"
+        "value": "kristianshevandoTM"
       },
-      "uniqueDnsNameForWebApp": {
+      "uniqueDnsNameForWebApp1": {
         "value": "kristianshevandoWA"
+      },
+      "uniqueDnsNameForWebApp2": {
+        "value": "kristianshevandoWA"
+      },
+      "webAppLocation1": {
+        "value": "[reference(concat('/subscriptions/')]"
+      },
+      "webAppLocation2": {
+        "type": "string"
       }
     }
 }

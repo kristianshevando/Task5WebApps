@@ -1,54 +1,66 @@
 {
     "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json",
     "contentVersion": "1.0.0.0",
-    "parameters": {
+    "parameters": { 
       "uniqueDnsName": {
         "type": "string",
         "metadata": {
           "description": "Relative DNS name for the traffic manager profile, resulting FQDN will be <uniqueDnsName>.trafficmanager.net, must be globally unique."
         }
       },
-      "uniqueDnsNameForWebApp": {
+      "uniqueDnsNameForWebApp1": {
         "type": "string",
         "metadata": {
           "description": "Relative DNS name for the WebApps, must be globally unique.  An index will be appended for each Web App."
         }
+      },
+      "uniqueDnsNameForWebApp2": {
+        "type": "string",
+        "metadata": {
+          "description": "Relative DNS name for the WebApps, must be globally unique.  An index will be appended for each Web App."
+        }
+      },
+      "webAppLocation1": {
+          "type": "string"
+      },
+      "webAppLocation2": {
+          "type": "string"
       }
     },
   
     "variables": {
-      "webAppLocations": [ "West Europe", "North Europe" ]
+    //   "webAppLocations": [ "West Europe", "North Europe" ]
     },
   
     "resources": [
-      {
-        "apiVersion": "2015-08-01",
-        "name": "[concat('DemoAppServicePlan', copyIndex())]",
-        "type": "Microsoft.Web/serverfarms",
-        "copy": {
-          "name": "farmloop",
-          "count": "[length(variables('webAppLocations'))]"
-        },
-        "location": "[variables('webAppLocations')[copyIndex()]]",
-        "sku": {
-          "name": "S1",
-          "tier": "Standard"
-        }
-      },
-      {
-        "apiVersion": "2015-08-01",
-        "name": "[concat(parameters('uniqueDnsNameForWebApp'), copyIndex())]",
-        "type": "Microsoft.Web/sites",
-        "copy": {
-          "name": "siteloop",
-          "count": "[length(variables('webAppLocations'))]"
-        },
-        "location": "[variables('webAppLocations')[copyIndex()]]",
-        "dependsOn": [ "[concat('DemoAppServicePlan', copyIndex())]" ],
-        "properties": {
-          "serverFarmId": "[concat('DemoAppServicePlan', copyIndex())]"
-        }
-      },
+    //   {
+    //     "apiVersion": "2015-08-01",
+    //     "name": "[concat('DemoAppServicePlan', copyIndex())]",
+    //     "type": "Microsoft.Web/serverfarms",
+    //     "copy": {
+    //       "name": "farmloop",
+    //       "count": "[length(variables('webAppLocations'))]"
+    //     },
+    //     "location": "[variables('webAppLocations')[copyIndex()]]",
+    //     "sku": {
+    //       "name": "S1",
+    //       "tier": "Standard"
+    //     }
+    //   },
+    //   {
+    //     "apiVersion": "2015-08-01",
+    //     "name": "[concat(parameters('uniqueDnsNameForWebApp'), copyIndex())]",
+    //     "type": "Microsoft.Web/sites",
+    //     "copy": {
+    //       "name": "siteloop",
+    //       "count": "[length(variables('webAppLocations'))]"
+    //     },
+    //     "location": "[variables('webAppLocations')[copyIndex()]]",
+    //     "dependsOn": [ "[concat('DemoAppServicePlan', copyIndex())]" ],
+    //     "properties": {
+    //       "serverFarmId": "[concat('DemoAppServicePlan', copyIndex())]"
+    //     }
+    //   },
       {
         "apiVersion": "2015-11-01",
         "type": "Microsoft.Network/trafficManagerProfiles",
@@ -65,26 +77,50 @@
             "protocol": "HTTPS",
             "port": 443,
             "path": "/"
-          }
-        }
-      },
-      {
-        "apiVersion": "2015-11-01",
-        "type": "Microsoft.Network/trafficManagerProfiles/azureEndpoints",
-        "dependsOn": [
-          "Microsoft.Network/trafficManagerProfiles/kristianTMProfile",
-          "[concat('Microsoft.Web/sites/', parameters('uniqueDnsNameForWebApp'), copyindex())]"
-        ],
-        "location": "global",
-        "name": "[concat('kristianTMProfile/Endpoint', copyIndex())]",
-        "copy": {
-          "name": "endpointloop",
-          "count": "[length(variables('webAppLocations'))]"
-        },
-        "properties": {
-          "targetResourceId": "[resourceId('Microsoft.Web/sites/', concat(parameters('uniqueDnsNameForWebApp'), copyIndex()))]",
-          "endpointStatus": "Enabled"
+          },
+          "endpoints": [
+              {
+                  "name": "[parameters('uniqueDnsNameForWebApp1')]",
+                  "type": "Microsoft.Network/trafficManagerProfiles/azureEndpoints",
+                  "properties": {
+                      "endpointStatus": "Enabled",
+                      "targetResourceId": "[resourceId('Microsoft.Web/sites', parameters('uniqueDnsNameForWebApp1'))]",
+                      "weight": 1,
+                      "priority": 1,
+                      "endpointLocation": "[parameters('webAppLocation1')]"
+                  }
+              },
+              {
+                "name": "[parameters('uniqueDnsNameForWebApp2')]",
+                "type": "Microsoft.Network/trafficManagerProfiles/azureEndpoints",
+                "properties": {
+                    "endpointStatus": "Enabled",
+                    "targetResourceId": "[resourceId('Microsoft.Web/sites', parameters('uniqueDnsNameForWebApp2'))]",
+                    "weight": 1,
+                    "priority": 2,
+                    "endpointLocation": "[parameters('webAppLocation2')]"
+                }
+            },
+          ]
         }
       }
+    //   {
+    //     "apiVersion": "2015-11-01",
+    //     "type": "Microsoft.Network/trafficManagerProfiles/azureEndpoints",
+    //     "dependsOn": [
+    //       "Microsoft.Network/trafficManagerProfiles/kristianTMProfile",
+    //       "[concat('Microsoft.Web/sites/', parameters('uniqueDnsNameForWebApp'), copyindex())]"
+    //     ],
+    //     "location": "global",
+    //     "name": "[concat('kristianTMProfile/Endpoint', copyIndex())]",
+    //     "copy": {
+    //       "name": "endpointloop",
+    //       "count": "[length(variables('webAppLocations'))]"
+    //     },
+    //     "properties": {
+    //       "targetResourceId": "[resourceId('Microsoft.Web/sites/', concat(parameters('uniqueDnsNameForWebApp'), copyIndex()))]",
+    //       "endpointStatus": "Enabled"
+    //     }
+    //   }
     ]
   }
