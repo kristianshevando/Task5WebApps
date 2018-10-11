@@ -76,7 +76,7 @@
           "[concat('Microsoft.Web/sites/', parameters('uniqueDnsNameForWebApp'), copyindex())]"
         ],
         "location": "global",
-        "name": "[concat('ExampleTMProfile/Endpoint', copyIndex())]",
+        "name": "[concat('kristianTMProfile/Endpoint', copyIndex())]",
         "copy": {
           "name": "endpointloop",
           "count": "[length(variables('webAppLocations'))]"
