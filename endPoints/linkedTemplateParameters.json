@@ -3,10 +3,10 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "endPointName1": {
-            "value": "kristianEndPoint1"
+            "value": "kristian-trafficmanager/endpoint-1"
         },
         "endPointName2": {
-            "value": "kristianEndPoint2"
+            "value": "kristian-trafficmanager/endpoint-2"
         },
     }
 }
